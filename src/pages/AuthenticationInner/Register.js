@@ -48,7 +48,7 @@ const Register = () => {
                     <Col className="col-7">
                       <div className="text-primary p-4">
                         <h5 className="text-primary">Free Register</h5>
-                        <p>Get your free Skote account now.</p>
+                        <p>Get your free account now.</p>
                       </div>
                     </Col>
                     <Col className="col-5 align-self-end">
@@ -157,7 +157,7 @@ const Register = () => {
                         </button>
                       </div>
 
-                      <div className="mt-4 text-center">
+                      {/* <div className="mt-4 text-center">
                         <h5 className="font-size-14 mb-3">Sign up using</h5>
 
                         <ul className="list-inline">
@@ -186,16 +186,16 @@ const Register = () => {
                             </Link>
                           </li>
                         </ul>
-                      </div>
+                      </div> */}
 
-                      <div className="mt-4 text-center">
+                      {/* <div className="mt-4 text-center">
                         <p className="mb-0">
                           By registering you agree to the Skote{" "}
                           <Link to="#" className="text-primary">
                             Terms of Use
                           </Link>
                         </p>
-                      </div>
+                      </div> */}
                     </Form>
                   </div>
                 </CardBody>
@@ -209,8 +209,7 @@ const Register = () => {
                   </Link>{" "}
                 </p>
                 <p>
-                  © {new Date().getFullYear()} Skote. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
+                  © {new Date().getFullYear()}
                 </p>
               </div>
             </Col>

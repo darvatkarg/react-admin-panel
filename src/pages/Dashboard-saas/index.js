@@ -50,7 +50,7 @@ const DashboardSaas = () => {
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumb */}
-          <Breadcrumbs title="Dashboards" breadcrumbItem="Saas" />
+          <Breadcrumbs title="Dashboard" breadcrumbItem="Dashboard" />
 
           {/* Card User */}
           <CardUser />

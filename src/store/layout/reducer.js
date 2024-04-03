@@ -10,8 +10,8 @@ import {
   CHANGE_PRELOADER,
   TOGGLE_LEFTMENU,
   SHOW_SIDEBAR,
-  CHANGE_LAYOUT_MODE
-} from "./actionTypes";
+  CHANGE_LAYOUT_MODE,
+} from "./actionTypes"
 
 //constants
 import {
@@ -22,16 +22,16 @@ import {
   leftBarThemeImageTypes,
   leftSidebarTypes,
   leftSideBarThemeTypes,
-} from "../../constants/layout";
+} from "../../constants/layout"
 
 const INIT_STATE = {
   layoutType: layoutTypes.VERTICAL,
-  layoutModeType: layoutModeTypes.LIGHT,
+  layoutModeType: layoutModeTypes.DARK,
   layoutWidth: layoutWidthTypes.FLUID,
   leftSideBarTheme: leftSideBarThemeTypes.DARK,
   leftSideBarThemeImage: leftBarThemeImageTypes.NONE,
   leftSideBarType: leftSidebarTypes.DEFAULT,
-  topbarTheme: topBarThemeTypes.LIGHT,
+  topbarTheme: topBarThemeTypes.DARK,
   isPreloader: false,
   showRightSidebar: false,
   isMobile: false,

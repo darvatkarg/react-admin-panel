@@ -141,8 +141,7 @@ const LockScreen = () => {
                   </Link>{" "}
                 </p>
                 <p>
-                  © {(new Date().getFullYear())} Skote. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
+                  © {(new Date().getFullYear())}
                 </p>
               </div>
             </Col>

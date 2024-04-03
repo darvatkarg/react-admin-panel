@@ -48,7 +48,7 @@ const Login = () => {
                     <Col className="col-7">
                       <div className="text-primary p-4">
                         <h5 className="text-primary">Welcome Back !</h5>
-                        <p>Sign in to continue to Skote.</p>
+                        <p>Sign in to continue.</p>
                       </div>
                     </Col>
                     <Col className="col-5 align-self-end">
@@ -156,9 +156,9 @@ const Login = () => {
                       </div>
 
                       <div className="mt-4 text-center">
-                        <h5 className="font-size-14 mb-3">Sign in with</h5>
+                        {/* <h5 className="font-size-14 mb-3">Sign in with</h5> */}
 
-                        <ul className="list-inline">
+                        {/* <ul className="list-inline">
                           <li className="list-inline-item">
                             <Link
                               to="#"
@@ -183,7 +183,7 @@ const Login = () => {
                               <i className="mdi mdi-google" />
                             </Link>
                           </li>
-                        </ul>
+                        </ul> */}
                       </div>
 
                       <div className="mt-4 text-center">
@@ -199,14 +199,13 @@ const Login = () => {
               <div className="mt-5 text-center">
                 <p>
                   Don&apos;t have an account ?{" "} <Link
-                    to="pages-register"
+                    to="/pages-register"
                     className="fw-medium text-primary"
                   > Signup now{" "}
                   </Link>{" "}
                 </p>
                 <p>
-                  © {new Date().getFullYear()} Skote. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
+                  © {new Date().getFullYear()}
                 </p>
               </div>
             </Col>
