@@ -76,10 +76,10 @@ const ProfileMenu = props => {
             {props.t("Profile")}{" "}
           </DropdownItem> */}
 
-          <Link to="/profile" className="dropdown-item">
+          {/* <Link to="/profile" className="dropdown-item">
             <i className="bx bx-user font-size-16 align-middle me-1" />
             <span>{props.t("Profile")}</span>
-          </Link>
+          </Link> */}
 
           {/* <DropdownItem tag="a" href="/crypto-wallet">
             <i className="bx bx-wallet font-size-16 align-middle me-1" />
