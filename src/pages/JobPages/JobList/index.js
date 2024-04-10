@@ -400,7 +400,7 @@ const JobList = () => {
       cell: cellProps => {
         return (
           <ul className="list-unstyled hstack gap-1 mb-0">
-            <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+            {/* <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
               <Link
                 to="/job-details"
                 className="btn btn-sm btn-soft-primary"
@@ -414,7 +414,7 @@ const JobList = () => {
               target={`viewtooltip-${cellProps.row.original.id}`}
             >
               View
-            </UncontrolledTooltip>
+            </UncontrolledTooltip> */}
             <li>
               <Link
                 to={`/profile/${cellProps.row.original.id}`}
