@@ -133,7 +133,7 @@ const LockScreen = () => {
                 <p>
                   Not you ? return{" "}
                   <Link
-                    to="/login"
+                    to="/pages-login"
                     className="fw-medium text-primary"
                   >
                     {" "}

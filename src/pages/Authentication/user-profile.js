@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
 import {
   Container,
   Row,
@@ -28,6 +29,7 @@ import Breadcrumb from "../../components/Common/Breadcrumb"
 import avatar from "../../assets/images/users/avatar-1.jpg"
 // actions
 import { editProfile, resetProfileFlag } from "../../store/actions"
+import { get, put } from "helpers/api_helper"
 
 const UserProfile = () => {
   //meta title
@@ -35,9 +37,7 @@ const UserProfile = () => {
 
   const dispatch = useDispatch()
 
-  const [email, setemail] = useState("")
-  const [name, setname] = useState("")
-  const [idx, setidx] = useState(1)
+  const [user, setUser] = useState("")
 
   const ProfileProperties = createSelector(
     state => state.Profile,
@@ -49,40 +49,65 @@ const UserProfile = () => {
 
   const { error, success } = useSelector(ProfileProperties)
 
-  useEffect(() => {
-    if (localStorage.getItem("authUser")) {
-      const obj = JSON.parse(localStorage.getItem("authUser"))
-      if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-        setname(obj.displayName)
-        setemail(obj.email)
-        setidx(obj.uid)
-      } else if (
-        process.env.REACT_APP_DEFAULTAUTH === "fake" ||
-        process.env.REACT_APP_DEFAULTAUTH === "jwt"
-      ) {
-        setname(obj.username)
-        setemail(obj.email)
-        setidx(obj.uid)
-      }
-      setTimeout(() => {
-        dispatch(resetProfileFlag())
-      }, 3000)
+  const { id } = useParams()
+  console.log(id)
+
+  async function showUserById() {
+    try {
+      const res = await get(`/find/${id}`)
+      console.log(res)
+      setUser(res.data)
+    } catch (error) {
+      console.log(error)
     }
-  }, [dispatch, success])
+  }
+
+  useEffect(() => {
+    // if (localStorage.getItem("authUser")) {
+    //   const obj = JSON.parse(localStorage.getItem("authUser"))
+    //   if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
+    //     setname(obj.displayName)
+    //     setEmail(obj.email)
+    //     setidx(obj.uid)
+    //   } else if (
+    //     process.env.REACT_APP_DEFAULTAUTH === "fake" ||
+    //     process.env.REACT_APP_DEFAULTAUTH === "jwt"
+    //   ) {
+    //     setname(obj.first_name)
+    //     setEmail(obj.email)
+    //     setidx(obj.uid)
+    //   }
+    //   setTimeout(() => {
+    //     dispatch(resetProfileFlag())
+    //   }, 3000)
+    // }
+    showUserById()
+  }, [])
 
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
-      username: name || "",
-      idx: idx || "",
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
     },
     validationSchema: Yup.object({
-      username: Yup.string().required("Please Enter Your UserName"),
+      first_name: Yup.string().required("Please Enter Your First Name"),
+      last_name: Yup.string().required("Please Enter Your Last Name"),
+      email: Yup.string().required("Please Enter Your Email"),
     }),
-    onSubmit: values => {
-      dispatch(editProfile(values))
+    onSubmit: async(values, {resetForm}) => {
+      // dispatch(editProfile(values))
+      try {
+        const res = await put(`/update/${id}`, values)
+        console.log(res);
+        resetForm()
+        showUserById()
+      } catch (err) {
+        console.log(err);
+      }
     },
   })
 
@@ -110,9 +135,8 @@ const UserProfile = () => {
                     </div>
                     <div className="flex-grow-1 align-self-center">
                       <div className="text-muted">
-                        <h5>{name}</h5>
-                        <p className="mb-1">{email}</p>
-                        <p className="mb-0">Id no: #{idx}</p>
+                        <h5>{user.first_name}</h5>
+                        <p className="mb-1">{ user.email }</p>
                       </div>
                     </div>
                   </div>
@@ -133,33 +157,82 @@ const UserProfile = () => {
                   return false
                 }}
               >
-                <div className="form-group">
-                  <Label className="form-label">User Name</Label>
+                <div className="form-group mb-4">
+                  <Label className="form-label">First Name</Label>
                   <Input
-                    name="username"
+                    name="first_name"
                     // value={name}
                     className="form-control"
                     placeholder="Enter User Name"
                     type="text"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.username || ""}
+                    value={validation.values.first_name || ""}
                     invalid={
-                      validation.touched.username && validation.errors.username
+                      validation.touched.first_name &&
+                      validation.errors.first_name
                         ? true
                         : false
                     }
                   />
-                  {validation.touched.username && validation.errors.username ? (
+                  {validation.touched.first_name &&
+                  validation.errors.first_name ? (
                     <FormFeedback type="invalid">
-                      {validation.errors.username}
+                      {validation.errors.first_name}
                     </FormFeedback>
                   ) : null}
-                  <Input name="idx" value={idx} type="hidden" />
+                </div>
+                <div className="form-group mb-4">
+                  <Label className="form-label">Last Name</Label>
+                  <Input
+                    name="last_name"
+                    // value={name}
+                    className="form-control"
+                    placeholder="Enter Last Name"
+                    type="text"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.last_name || ""}
+                    invalid={
+                      validation.touched.last_name &&
+                      validation.errors.last_name
+                        ? true
+                        : false
+                    }
+                  />
+                  {validation.touched.last_name &&
+                  validation.errors.last_name ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.last_name}
+                    </FormFeedback>
+                  ) : null}
+                </div>
+                <div className="form-group mb-4">
+                  <Label className="form-label">Email</Label>
+                  <Input
+                    name="email"
+                    // value={name}
+                    className="form-control"
+                    placeholder="Enter Email"
+                    type="text"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.email || ""}
+                    invalid={
+                      validation.touched.email && validation.errors.email
+                        ? true
+                        : false
+                    }
+                  />
+                  {validation.touched.email && validation.errors.email ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.email}
+                    </FormFeedback>
+                  ) : null}
                 </div>
                 <div className="text-center mt-4">
                   <Button type="submit" color="danger">
-                    Update User Name
+                    Update User
                   </Button>
                 </div>
               </Form>

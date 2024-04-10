@@ -85,7 +85,7 @@ class FirebaseAuthBackend {
         .auth()
         .sendPasswordResetEmail(email, {
           url:
-            window.location.protocol + "//" + window.location.host + "/login",
+            window.location.protocol + "//" + window.location.host + "/pages-login",
         })
         .then(() => {
           resolve(true);

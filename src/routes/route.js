@@ -1,15 +1,15 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React from "react"
+import { Navigate } from "react-router-dom"
 
-const Authmiddleware = (props) => {
-  if (!localStorage.getItem("authUser")) {
+const Authmiddleware = props => {
+  if (!localStorage.getItem("token")) {
     return (
-      <Navigate to={{ pathname: "/login", state: { from: props.location } }} />
-    );
+      <Navigate
+        to={{ pathname: "/pages-login", state: { from: props.location } }}
+      />
+    )
   }
-  return (<React.Fragment>
-    {props.children}
-  </React.Fragment>);
-};
+  return <React.Fragment>{props.children}</React.Fragment>
+}
 
-export default Authmiddleware;
+export default Authmiddleware

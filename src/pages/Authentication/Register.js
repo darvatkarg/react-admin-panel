@@ -67,7 +67,7 @@ const Register = props => {
   }, []);
 
   useEffect(() => {
-    success && setTimeout(() => navigate("/login"), 2000)
+    success && setTimeout(() => navigate("/pages-login"), 2000)
   }, [success])
 
   return (
@@ -207,7 +207,7 @@ const Register = props => {
               </Card>
               <div className="mt-5 text-center">
                 <p>
-                  Already have an account ?{" "} <Link to="/login" className="font-weight-medium text-primary">
+                  Already have an account ?{" "} <Link to="/pages-login" className="font-weight-medium text-primary">
                     {" "}
                     Login
                   </Link>{" "}

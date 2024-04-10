@@ -161,7 +161,7 @@ const TableContainer = ({
           placeholder={SearchPlaceholder}
         />}
 
-        {isJobListGlobalFilter && <JobListGlobalFilter setGlobalFilter={setGlobalFilter} />}
+        {/* {isJobListGlobalFilter && <JobListGlobalFilter setGlobalFilter={setGlobalFilter} />} */}
 
         {isAddButton && <Col sm={6}>
           <div className="text-sm-end">

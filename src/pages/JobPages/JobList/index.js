@@ -32,16 +32,17 @@ import {
   Label,
   Card,
   CardBody,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Badge,
+  // UncontrolledDropdown,
+  // DropdownToggle,
+  // DropdownMenu,
+  // DropdownItem,
+  // Badge,
   Button,
 } from "reactstrap"
 import Spinners from "components/Common/Spinner"
 import { ToastContainer } from "react-toastify"
 import { Link } from "react-router-dom"
+import { del, get } from "helpers/api_helper"
 
 const JobList = () => {
   //meta title
@@ -50,6 +51,33 @@ const JobList = () => {
   const [modal, setModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [job, setJob] = useState(null)
+  const [users, setUsers] = useState([])
+  const [userToBeDeleted, setUserToBeDeleted] = useState(null)
+
+  useEffect(() => {
+    handleFetchUsersList()
+  }, [])
+
+  const handleFetchUsersList = async () => {
+    try {
+      const response = await get("/findall")
+      console.log(response.data)
+      setUsers(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function handleUserDelete() {
+    try {
+      const res = await del(`/delete/${userToBeDeleted}`)
+      console.log(res);
+      setDeleteModal(false)
+      handleFetchUsersList()
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   // validation
   const validation = useFormik({
@@ -170,7 +198,8 @@ const JobList = () => {
   const [deleteModal, setDeleteModal] = useState(false)
 
   const onClickDelete = job => {
-    setJob(job)
+    // setJob(job)
+    setUserToBeDeleted(job)
     setDeleteModal(true)
   }
 
@@ -181,174 +210,261 @@ const JobList = () => {
     }
   }
 
-  const columns = useMemo(
-    () => [
-      {
-        header: "No",
-        accessorKey: "id",
-        enableColumnFilter: false,
-        enableSorting: true,
-        cell: cellProps => {
-          return (
-            <Link to="#" className="text-body fw-bold">
-              {cellProps.row.original.id}
-            </Link>
-          )
-        },
-      },
-      {
-        header: "Job Title",
-        accessorKey: "jobTitle",
-        enableColumnFilter: false,
-        enableSorting: true,
-      },
-      {
-        header: "Company Name",
-        accessorKey: "companyName",
-        enableColumnFilter: false,
-        enableSorting: true,
-      },
-      {
-        header: "Location",
-        enableColumnFilter: false,
-        enableSorting: true,
-        accessorKey: "location",
-      },
-      {
-        header: "Experience",
-        enableColumnFilter: false,
-        enableSorting: true,
-        accessorKey: "experience",
-      },
-      {
-        header: "Position",
-        enableColumnFilter: false,
-        enableSorting: true,
-        accessorKey: "position",
-      },
-      {
-        header: "Type",
-        accessorKey: "type",
-        enableColumnFilter: false,
-        enableSorting: true,
-        cell: cellProps => {
-          switch (cellProps.row.original.type) {
-            case "Full Time":
-              return <span className="badge badge-soft-success">Full Time</span>
-            case "Part Time":
-              return <span className="badge badge-soft-danger">Part Time</span>
-            case "Freelance":
-              return <span className="badge badge-soft-info">Freelance</span>
-            default:
-              return (
-                <span className="badge badge-soft-warning">Internship</span>
-              )
-          }
-        },
-      },
-      {
-        header: "Posted Date",
-        enableColumnFilter: false,
-        enableSorting: true,
-        accessorKey: "postedDate",
-      },
-      {
-        header: "Last Date",
-        enableColumnFilter: false,
-        enableSorting: true,
-        accessorKey: "lastDate",
-      },
-      {
-        header: "Status",
-        accessorKey: "status",
-        enableColumnFilter: false,
-        enableSorting: true,
-        cell: cellProps => {
-          switch (cellProps.row.original.status) {
-            case "Active":
-              return <Badge className="bg-success">Active</Badge>
-            case "New":
-              return <Badge className="bg-info">New</Badge>
-            case "Close":
-              return <Badge className="bg-danger">Close</Badge>
-          }
-        },
-      },
-      {
-        header: "Action",
-        enableColumnFilter: false,
-        enableSorting: true,
-        cell: cellProps => {
-          return (
-            <ul className="list-unstyled hstack gap-1 mb-0">
-              <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-                <Link
-                  to="/job-details"
-                  className="btn btn-sm btn-soft-primary"
-                  id={`viewtooltip-${cellProps.row.original.id}`}
-                >
-                  <i className="mdi mdi-eye-outline" />
-                </Link>
-              </li>
-              <UncontrolledTooltip
-                placement="top"
-                target={`viewtooltip-${cellProps.row.original.id}`}
+  // const columns = useMemo(
+  //   () => [
+  //     {
+  //       header: "No",
+  //       accessorKey: "id",
+  //       enableColumnFilter: false,
+  //       enableSorting: true,
+  //       cell: cellProps => {
+  //         return (
+  //           <Link to="#" className="text-body fw-bold">
+  //             {cellProps.row.original.id}
+  //           </Link>
+  //         )
+  //       },
+  //     },
+  //     {
+  //       header: "User Name",
+  //       accessorKey: "jobTitle",
+  //       enableColumnFilter: false,
+  //       enableSorting: true,
+  //     },
+  //     {
+  //       header: "Email",
+  //       accessorKey: "companyName",
+  //       enableColumnFilter: false,
+  //       enableSorting: true,
+  //     },
+  //     {
+  //       header: "Location",
+  //       enableColumnFilter: false,
+  //       enableSorting: true,
+  //       accessorKey: "location",
+  //     },
+  //     {
+  //       header: "Experience",
+  //       enableColumnFilter: false,
+  //       enableSorting: true,
+  //       accessorKey: "experience",
+  //     },
+  //     {
+  //       header: "Position",
+  //       enableColumnFilter: false,
+  //       enableSorting: true,
+  //       accessorKey: "position",
+  //     },
+  //     {
+  //       header: "Type",
+  //       accessorKey: "type",
+  //       enableColumnFilter: false,
+  //       enableSorting: true,
+  //       cell: cellProps => {
+  //         switch (cellProps.row.original.type) {
+  //           case "Full Time":
+  //             return <span className="badge badge-soft-success">Full Time</span>
+  //           case "Part Time":
+  //             return <span className="badge badge-soft-danger">Part Time</span>
+  //           case "Freelance":
+  //             return <span className="badge badge-soft-info">Freelance</span>
+  //           default:
+  //             return (
+  //               <span className="badge badge-soft-warning">Internship</span>
+  //             )
+  //         }
+  //       },
+  //     },
+  //     {
+  //       header: "Posted Date",
+  //       enableColumnFilter: false,
+  //       enableSorting: true,
+  //       accessorKey: "postedDate",
+  //     },
+  //     {
+  //       header: "Last Date",
+  //       enableColumnFilter: false,
+  //       enableSorting: true,
+  //       accessorKey: "lastDate",
+  //     },
+  //     {
+  //       header: "Status",
+  //       accessorKey: "status",
+  //       enableColumnFilter: false,
+  //       enableSorting: true,
+  //       cell: cellProps => {
+  //         switch (cellProps.row.original.status) {
+  //           case "Active":
+  //             return <Badge className="bg-success">Active</Badge>
+  //           case "New":
+  //             return <Badge className="bg-info">New</Badge>
+  //           case "Close":
+  //             return <Badge className="bg-danger">Close</Badge>
+  //         }
+  //       },
+  //     },
+  //     {
+  //       header: "Action",
+  //       enableColumnFilter: false,
+  //       enableSorting: true,
+  //       cell: cellProps => {
+  //         return (
+  //           <ul className="list-unstyled hstack gap-1 mb-0">
+  //             <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+  //               <Link
+  //                 to="/job-details"
+  //                 className="btn btn-sm btn-soft-primary"
+  //                 id={`viewtooltip-${cellProps.row.original.id}`}
+  //               >
+  //                 <i className="mdi mdi-eye-outline" />
+  //               </Link>
+  //             </li>
+  //             <UncontrolledTooltip
+  //               placement="top"
+  //               target={`viewtooltip-${cellProps.row.original.id}`}
+  //             >
+  //               View
+  //             </UncontrolledTooltip>
+
+  //             <li>
+  //               <Link
+  //                 to="#"
+  //                 className="btn btn-sm btn-soft-info"
+  //                 onClick={() => {
+  //                   const jobData = cellProps.row.original
+  //                   handleJobClick(jobData)
+  //                 }}
+  //                 id={`edittooltip-${cellProps.row.original.id}`}
+  //               >
+  //                 <i className="mdi mdi-pencil-outline" />
+  //                 <UncontrolledTooltip
+  //                   placement="top"
+  //                   target={`edittooltip-${cellProps.row.original.id}`}
+  //                 >
+  //                   Edit
+  //                 </UncontrolledTooltip>
+  //               </Link>
+  //             </li>
+
+  //             <li>
+  //               <Link
+  //                 to="#"
+  //                 className="btn btn-sm btn-soft-danger"
+  //                 onClick={() => {
+  //                   const jobData = cellProps.row.original
+  //                   onClickDelete(jobData)
+  //                 }}
+  //                 id={`deletetooltip-${cellProps.row.original.id}`}
+  //               >
+  //                 <i className="mdi mdi-delete-outline" />
+  //                 <UncontrolledTooltip
+  //                   placement="top"
+  //                   target={`deletetooltip-${cellProps.row.original.id}`}
+  //                 >
+  //                   Delete
+  //                 </UncontrolledTooltip>
+  //               </Link>
+  //             </li>
+  //           </ul>
+  //         )
+  //       },
+  //     },
+  //   ],
+  //   []
+  // )
+
+  const columns = [
+    {
+      header: "First Name",
+      accessorKey: "first_name",
+      enableColumnFilter: false,
+      enableSorting: true,
+    },
+    {
+      header: "Last Name",
+      accessorKey: "last_name",
+      enableColumnFilter: false,
+      enableSorting: true,
+    },
+    {
+      header: "Email",
+      accessorKey: "email",
+      enableColumnFilter: false,
+      enableSorting: true,
+    },
+    {
+      header: "Action",
+      accessorKey: "id",
+      enableColumnFilter: false,
+      enableSorting: true,
+      cell: cellProps => {
+        return (
+          <ul className="list-unstyled hstack gap-1 mb-0">
+            <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+              <Link
+                to="/job-details"
+                className="btn btn-sm btn-soft-primary"
+                id={`viewtooltip-${cellProps.row.original.id}`}
               >
-                View
-              </UncontrolledTooltip>
-
-              <li>
-                <Link
-                  to="#"
-                  className="btn btn-sm btn-soft-info"
-                  onClick={() => {
-                    const jobData = cellProps.row.original
-                    handleJobClick(jobData)
-                  }}
-                  id={`edittooltip-${cellProps.row.original.id}`}
+                <i className="mdi mdi-eye-outline" />
+              </Link>
+            </li>
+            <UncontrolledTooltip
+              placement="top"
+              target={`viewtooltip-${cellProps.row.original.id}`}
+            >
+              View
+            </UncontrolledTooltip>
+            <li>
+              <Link
+                to={`/profile/${cellProps.row.original.id}`}
+                className="btn btn-sm btn-soft-info"
+                onClick={() => {
+                  // const jobData = cellProps.row.original
+                  // handleJobClick(jobData)
+                }}
+                id={`edittooltip-${cellProps.row.original.id}`}
+              >
+                <i className="mdi mdi-pencil-outline" />
+                <UncontrolledTooltip
+                  placement="top"
+                  target={`edittooltip-${cellProps.row.original.id}`}
                 >
-                  <i className="mdi mdi-pencil-outline" />
-                  <UncontrolledTooltip
-                    placement="top"
-                    target={`edittooltip-${cellProps.row.original.id}`}
-                  >
-                    Edit
-                  </UncontrolledTooltip>
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="#"
-                  className="btn btn-sm btn-soft-danger"
-                  onClick={() => {
-                    const jobData = cellProps.row.original
-                    onClickDelete(jobData)
-                  }}
-                  id={`deletetooltip-${cellProps.row.original.id}`}
+                  Edit
+                </UncontrolledTooltip>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="#"
+                className="btn btn-sm btn-soft-danger"
+                onClick={() => {
+                  const jobData = cellProps.row.original.id
+                  onClickDelete(jobData)
+                  console.log(cellProps.row.original.id)
+                }}
+                id={`deletetooltip-${cellProps.row.original.id}`}
+              >
+                <i className="mdi mdi-delete" />
+                <UncontrolledTooltip
+                  placement="top"
+                  target={`deletetooltip-${cellProps.row.original.id}`}
                 >
-                  <i className="mdi mdi-delete-outline" />
-                  <UncontrolledTooltip
-                    placement="top"
-                    target={`deletetooltip-${cellProps.row.original.id}`}
-                  >
-                    Delete
-                  </UncontrolledTooltip>
-                </Link>
-              </li>
-            </ul>
-          )
-        },
+                  Delete
+                </UncontrolledTooltip>
+              </Link>
+            </li>
+          </ul>
+        )
       },
-    ],
-    []
-  )
+    },
+  ]
 
   return (
     <React.Fragment>
       <DeleteModal
         show={deleteModal}
-        onDeleteClick={handleDeletejob}
+        onDeleteClick={handleUserDelete}
         onCloseClick={() => setDeleteModal(false)}
       />
       <div className="page-content">
@@ -406,7 +522,7 @@ const JobList = () => {
                   <CardBody>
                     <TableContainer
                       columns={columns}
-                      data={jobs || []}
+                      data={users || []}
                       isCustomPageSize={true}
                       isGlobalFilter={true}
                       isJobListGlobalFilter={true}
