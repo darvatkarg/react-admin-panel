@@ -25,6 +25,16 @@ const ProfileMenu = props => {
 
   const [username, setusername] = useState("Admin")
 
+  useEffect(async () => {
+    try {
+      const res = await get("/finduser")
+      console.log(res)
+      setusername(`${res.data.first_name} ` + `${res.data.last_name}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+
   const handleLogOut = async () => {
     try {
       const deleteUser = await get("/logout")
