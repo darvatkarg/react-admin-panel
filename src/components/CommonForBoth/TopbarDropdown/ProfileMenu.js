@@ -15,7 +15,7 @@ import { Link } from "react-router-dom"
 import withRouter from "components/Common/withRouter"
 
 // users
-import user1 from "../../../assets/images/users/avatar-1.jpg"
+import user1 from "../../../assets/images/users/avatar-2.jpg"
 import { get } from "helpers/api_helper"
 import accessToken from "helpers/jwt-token-access/accessToken"
 
