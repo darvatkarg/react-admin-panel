@@ -116,7 +116,7 @@ const UserProfile = () => {
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumb */}
-          <Breadcrumb title="Update Profile" breadcrumbItem="Update Profile" />
+          <Breadcrumb title="Update" breadcrumbItem="Update" />
 
           <Row>
             <Col lg="12">
@@ -145,7 +145,7 @@ const UserProfile = () => {
             </Col>
           </Row>
 
-          <h4 className="card-title mb-4">Update Profile</h4>
+          <h4 className="card-title mb-4">Update User</h4>
 
           <Card>
             <CardBody>
@@ -261,7 +261,7 @@ const UserProfile = () => {
 
                 <div className="text-center mt-4">
                   <Button type="submit" color="danger">
-                    Update User
+                    Update
                   </Button>
                 </div>
               </Form>
