@@ -105,7 +105,11 @@ const ProfileMenu = props => {
             {props.t("Lock screen")}
           </DropdownItem> */}
           <div className="dropdown-divider" />
-          <Link to="/logout" className="dropdown-item" onClick={handleLogOut}>
+          <Link
+            to="/pages-login"
+            className="dropdown-item"
+            onClick={handleLogOut}
+          >
             <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
             <span>{props.t("Logout")}</span>
           </Link>
