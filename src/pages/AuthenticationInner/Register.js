@@ -217,6 +217,32 @@ const Register = () => {
                         ) : null}
                       </div>
 
+                      <div className="mb-3">
+                        <Label className="form-label">Upload Profile</Label>
+                        <Input
+                          name="profileImg"
+                          type="file"
+                          placeholder="Choose Your Profile"
+                          onChange={e => {
+                            validation.handleChange(e)
+                          }}
+                          onBlur={validation.handleBlur}
+                          value={validation.values.profileImg || ""}
+                          invalid={
+                            validation.touched.profileImg &&
+                            validation.errors.profileImg
+                              ? true
+                              : false
+                          }
+                        />
+                        {validation.touched.profileImg &&
+                        validation.errors.profileImg ? (
+                          <FormFeedback type="invalid">
+                            {validation.errors.profileImg}
+                          </FormFeedback>
+                        ) : null}
+                      </div>
+
                       <div className="mt-4 d-grid">
                         <button
                           className="btn btn-primary btn-block "

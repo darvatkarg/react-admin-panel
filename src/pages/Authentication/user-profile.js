@@ -98,15 +98,15 @@ const UserProfile = () => {
       last_name: Yup.string().required("Please Enter Your Last Name"),
       email: Yup.string().required("Please Enter Your Email"),
     }),
-    onSubmit: async(values, {resetForm}) => {
+    onSubmit: async (values, { resetForm }) => {
       // dispatch(editProfile(values))
       try {
         const res = await put(`/update/${id}`, values)
-        console.log(res);
+        console.log(res)
         resetForm()
         showUserById()
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     },
   })
@@ -116,7 +116,7 @@ const UserProfile = () => {
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumb */}
-          <Breadcrumb title="Profile" breadcrumbItem="Profile" />
+          <Breadcrumb title="Update Profile" breadcrumbItem="Update Profile" />
 
           <Row>
             <Col lg="12">
@@ -136,7 +136,7 @@ const UserProfile = () => {
                     <div className="flex-grow-1 align-self-center">
                       <div className="text-muted">
                         <h5>{user.first_name}</h5>
-                        <p className="mb-1">{ user.email }</p>
+                        <p className="mb-1">{user.email}</p>
                       </div>
                     </div>
                   </div>
@@ -145,7 +145,7 @@ const UserProfile = () => {
             </Col>
           </Row>
 
-          <h4 className="card-title mb-4">Change User Name</h4>
+          <h4 className="card-title mb-4">Update Profile</h4>
 
           <Card>
             <CardBody>
@@ -182,6 +182,7 @@ const UserProfile = () => {
                     </FormFeedback>
                   ) : null}
                 </div>
+
                 <div className="form-group mb-4">
                   <Label className="form-label">Last Name</Label>
                   <Input
@@ -207,6 +208,7 @@ const UserProfile = () => {
                     </FormFeedback>
                   ) : null}
                 </div>
+
                 <div className="form-group mb-4">
                   <Label className="form-label">Email</Label>
                   <Input
@@ -230,6 +232,33 @@ const UserProfile = () => {
                     </FormFeedback>
                   ) : null}
                 </div>
+
+                <div className="form-group mb-4">
+                  <Label className="form-label">Upload Profile</Label>
+                  <Input
+                    name="profileImg"
+                    // value={name}
+                    className="form-control"
+                    placeholder="Choose Your Profile"
+                    type="file"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.profileImg || ""}
+                    invalid={
+                      validation.touched.profileImg &&
+                      validation.errors.profileImg
+                        ? true
+                        : false
+                    }
+                  />
+                  {validation.touched.profileImg &&
+                  validation.errors.profileImg ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.profileImg}
+                    </FormFeedback>
+                  ) : null}
+                </div>
+
                 <div className="text-center mt-4">
                   <Button type="submit" color="danger">
                     Update User
