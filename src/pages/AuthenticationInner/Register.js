@@ -38,16 +38,28 @@ const Register = () => {
       first_name: "",
       last_name: "",
       password: "",
+      image: null,
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),
       first_name: Yup.string().required("Please Enter Your First Name"),
       last_name: Yup.string().required("Please Enter Your Last Name"),
       password: Yup.string().required("Please Enter Your Password"),
+      image: Yup.mixed().required("Required"),
     }),
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async(values, { resetForm }) => {
+      let formData = new FormData()
+      formData.append("first_name", values.first_name)
+      formData.append("last_name", values.last_name)
+      formData.append("email", values.email)
+      formData.append("password", values.password)
+      formData.append("image", values.image)
+      console.log("values", values);
+    //   for (let pair of formData.entries()) {
+    //     console.log(pair[0]+ ', '+ pair[1]); 
+    // }
       try {
-        const response = await post("/register", values)
+        const response = await post("/register", formData)
         console.log(response)
         resetForm()
       } catch (err) {
@@ -220,25 +232,25 @@ const Register = () => {
                       <div className="mb-3">
                         <Label className="form-label">Upload Profile</Label>
                         <Input
-                          name="profileImg"
+                          name="image"
                           type="file"
                           placeholder="Choose Your Profile"
                           onChange={e => {
-                            validation.handleChange(e)
+                            validation.setFieldValue(
+                              "image",
+                              e.currentTarget.files[0]
+                            )
                           }}
                           onBlur={validation.handleBlur}
-                          value={validation.values.profileImg || ""}
                           invalid={
-                            validation.touched.profileImg &&
-                            validation.errors.profileImg
+                            validation.touched.image && validation.errors.image
                               ? true
                               : false
                           }
                         />
-                        {validation.touched.profileImg &&
-                        validation.errors.profileImg ? (
+                        {validation.touched.image && validation.errors.image ? (
                           <FormFeedback type="invalid">
-                            {validation.errors.profileImg}
+                            {validation.errors.image}
                           </FormFeedback>
                         ) : null}
                       </div>

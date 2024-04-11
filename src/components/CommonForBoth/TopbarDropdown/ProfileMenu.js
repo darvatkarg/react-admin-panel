@@ -24,6 +24,7 @@ const ProfileMenu = props => {
   const [menu, setMenu] = useState(false)
 
   const [username, setusername] = useState("Admin")
+  const [userImage, setUserImage] = useState(null)
 
   useEffect(() => {
     findUserDetails()
@@ -34,6 +35,7 @@ const ProfileMenu = props => {
       const res = await get("/finduser")
       console.log(res)
       setusername(`${res.data.first_name} ` + `${res.data.last_name}`)
+      setUserImage(res.data.image_path)
     } catch (error) {
       console.log(error)
     }
@@ -77,7 +79,7 @@ const ProfileMenu = props => {
         >
           <img
             className="rounded-circle header-profile-user"
-            src={user1}
+            src={userImage ? userImage : user1}
             alt="Header Avatar"
           />
           <span className="d-none d-xl-inline-block ms-2 me-1">{username}</span>

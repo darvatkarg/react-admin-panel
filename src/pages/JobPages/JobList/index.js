@@ -71,11 +71,11 @@ const JobList = () => {
   async function handleUserDelete() {
     try {
       const res = await del(`/delete/${userToBeDeleted}`)
-      console.log(res);
+      console.log(res)
       setDeleteModal(false)
       handleFetchUsersList()
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
   }
 
@@ -375,28 +375,44 @@ const JobList = () => {
 
   const columns = [
     {
+      header: "Profile Image",
+      accessorKey: "image_path",
+      enableColumnFilter: false,
+      // enableSorting: true,
+      cell: cellProps => {
+        return (
+          <img
+            className="rounded-5"
+            style={{ height: "4rem", width: "4rem" }}
+            alt="no image"
+            src={cellProps.row.original.image_path}
+          />
+        )
+      },
+    },
+    {
       header: "First Name",
       accessorKey: "first_name",
       enableColumnFilter: false,
-      enableSorting: true,
+      // enableSorting: true,
     },
     {
       header: "Last Name",
       accessorKey: "last_name",
       enableColumnFilter: false,
-      enableSorting: true,
+      // enableSorting: true,
     },
     {
       header: "Email",
       accessorKey: "email",
       enableColumnFilter: false,
-      enableSorting: true,
+      // enableSorting: true,
     },
     {
       header: "Action",
       accessorKey: "id",
       enableColumnFilter: false,
-      enableSorting: true,
+      // enableSorting: true,
       cell: cellProps => {
         return (
           <ul className="list-unstyled hstack gap-1 mb-0">
@@ -537,7 +553,7 @@ const JobList = () => {
               </Col>
             </Row>
           )}
-          <Modal isOpen={modal} toggle={toggle}>
+          {/* <Modal isOpen={modal} toggle={toggle}>
             <ModalHeader toggle={toggle} tag="h4">
               {!!isEdit ? "Edit Job" : "Add Job"}
             </ModalHeader>
@@ -760,7 +776,7 @@ const JobList = () => {
                 </Row>
               </Form>
             </ModalBody>
-          </Modal>
+          </Modal> */}
         </div>
       </div>
       <ToastContainer />
