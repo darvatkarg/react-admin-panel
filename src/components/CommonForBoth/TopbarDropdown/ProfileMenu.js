@@ -25,7 +25,11 @@ const ProfileMenu = props => {
 
   const [username, setusername] = useState("Admin")
 
-  useEffect(async () => {
+  useEffect(() => {
+    findUserDetails()
+  }, [])
+
+  async function findUserDetails() {
     try {
       const res = await get("/finduser")
       console.log(res)
@@ -33,7 +37,7 @@ const ProfileMenu = props => {
     } catch (error) {
       console.log(error)
     }
-  }, [])
+  }
 
   const handleLogOut = async () => {
     try {
