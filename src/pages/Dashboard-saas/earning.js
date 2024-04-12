@@ -59,16 +59,16 @@ const Earning = ({ dataColors }) => {
   /*
   call api action to receive data
   */
-  useEffect(() => {
-    dispatch(getEarningChartsData("jan"));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getEarningChartsData("jan"));
+  // }, [dispatch]);
 
   const [selectedMonth, setSelectedMonth] = useState("jan");
 
-  const onChangeMonth = value => {
-    setSelectedMonth(value);
-    dispatch(getEarningChartsData(value));
-  };
+  // const onChangeMonth = value => {
+  //   setSelectedMonth(value);
+  //   dispatch(getEarningChartsData(value));
+  // };
 
   return (
     <React.Fragment>

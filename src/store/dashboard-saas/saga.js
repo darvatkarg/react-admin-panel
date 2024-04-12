@@ -12,7 +12,7 @@ import {
 
 function* getSellingData({ payload: month }) {
     try {
-        var response = yield call(topSellingDataApi, month);
+        // var response = yield call(topSellingDataApi, month);
         yield put(DashboardSaasapiSuccess(GET_TOP_SELLING_PRODUCT, response));
     } catch (error) {
         yield put(DashboardSaasapiFail(GET_TOP_SELLING_PRODUCT, error));

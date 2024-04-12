@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import * as Yup from "yup"
 import { useFormik } from "formik"
 
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import {
   Row,
@@ -27,6 +27,7 @@ import { post } from "helpers/api_helper"
 const Register = () => {
   //meta title
   document.title = "Register | Skote - React Admin & Dashboard Template"
+  const navigate = useNavigate()
 
   //form validation
   const validation = useFormik({
@@ -47,21 +48,22 @@ const Register = () => {
       password: Yup.string().required("Please Enter Your Password"),
       image: Yup.mixed().required("Required"),
     }),
-    onSubmit: async(values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       let formData = new FormData()
       formData.append("first_name", values.first_name)
       formData.append("last_name", values.last_name)
       formData.append("email", values.email)
       formData.append("password", values.password)
       formData.append("image", values.image)
-      console.log("values", values);
-    //   for (let pair of formData.entries()) {
-    //     console.log(pair[0]+ ', '+ pair[1]); 
-    // }
+      console.log("values", values)
+      //   for (let pair of formData.entries()) {
+      //     console.log(pair[0]+ ', '+ pair[1]);
+      // }
       try {
         const response = await post("/register", formData)
         console.log(response)
         resetForm()
+        navigate("/pages-login")
       } catch (err) {
         console.log(err)
       }

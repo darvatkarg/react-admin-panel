@@ -160,11 +160,11 @@ const JobList = () => {
 
   const [isLoading, setLoading] = useState(loading)
 
-  useEffect(() => {
-    if (jobs && !jobs.length) {
-      dispatch(onGetJobList())
-    }
-  }, [dispatch, jobs])
+  // useEffect(() => {
+  //   if (jobs && !jobs.length) {
+  //     dispatch(onGetJobList())
+  //   }
+  // }, [dispatch, jobs])
 
   const toggle = () => {
     if (modal) {
@@ -383,7 +383,11 @@ const JobList = () => {
         return (
           <img
             className="rounded-5"
-            style={{ height: "4rem", width: "4rem" }}
+            style={{
+              height: "4rem",
+              width: "4rem",
+              border: "3px solid rgba(255, 255, 255, 0.25)",
+            }}
             alt="no image"
             src={cellProps.row.original.image_path}
           />
@@ -431,7 +435,7 @@ const JobList = () => {
             >
               View
             </UncontrolledTooltip> */}
-            <li>
+            <li className="me-2">
               <Link
                 to={`/profile/${cellProps.row.original.id}`}
                 className="btn btn-sm btn-soft-info"

@@ -38,6 +38,7 @@ const UserProfile = () => {
   const dispatch = useDispatch()
 
   const [user, setUser] = useState("")
+  const [userProfile, setUserProfile] = useState("")
 
   const ProfileProperties = createSelector(
     state => state.Profile,
@@ -57,6 +58,7 @@ const UserProfile = () => {
       const res = await get(`/find/${id}`)
       console.log(res)
       setUser(res.data)
+      setUserProfile(res.data.image_path)
     } catch (error) {
       console.log(error)
     }
@@ -92,6 +94,7 @@ const UserProfile = () => {
       first_name: user.first_name,
       last_name: user.last_name,
       email: user.email,
+      image: null,
     },
     validationSchema: Yup.object({
       first_name: Yup.string().required("Please Enter Your First Name"),
@@ -100,8 +103,14 @@ const UserProfile = () => {
     }),
     onSubmit: async (values, { resetForm }) => {
       // dispatch(editProfile(values))
+      let formData = new FormData()
+      formData.append("first_name", values.first_name)
+      formData.append("last_name", values.last_name)
+      formData.append("email", values.email)
+      formData.append("image", values.image)
+      console.log("values", values)
       try {
-        const res = await put(`/update/${id}`, values)
+        const res = await put(`/update/${id}`, formData)
         console.log(res)
         resetForm()
         showUserById()
@@ -128,7 +137,7 @@ const UserProfile = () => {
                   <div className="d-flex">
                     <div className="ms-3 me-3">
                       <img
-                        src={avatar}
+                        src={userProfile ? userProfile : avatar}
                         alt=""
                         className="avatar-md rounded-circle img-thumbnail"
                       />
@@ -236,27 +245,16 @@ const UserProfile = () => {
                 <div className="form-group mb-4">
                   <Label className="form-label">Upload Profile</Label>
                   <Input
-                    name="profileImg"
+                    name="image"
                     // value={name}
                     className="form-control"
                     placeholder="Choose Your Profile"
                     type="file"
-                    onChange={validation.handleChange}
-                    onBlur={validation.handleBlur}
-                    value={validation.values.profileImg || ""}
-                    invalid={
-                      validation.touched.profileImg &&
-                      validation.errors.profileImg
-                        ? true
-                        : false
+                    onChange={e => 
+                      validation.setFieldValue("image", e.currentTarget.files[0])
                     }
+                    onBlur={validation.handleBlur}
                   />
-                  {validation.touched.profileImg &&
-                  validation.errors.profileImg ? (
-                    <FormFeedback type="invalid">
-                      {validation.errors.profileImg}
-                    </FormFeedback>
-                  ) : null}
                 </div>
 
                 <div className="text-center mt-4">
