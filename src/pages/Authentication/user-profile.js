@@ -29,7 +29,7 @@ import Breadcrumb from "../../components/Common/Breadcrumb"
 import avatar from "../../assets/images/users/avatar-1.jpg"
 // actions
 import { editProfile, resetProfileFlag } from "../../store/actions"
-import { get, put } from "helpers/api_helper"
+import { get, post } from "helpers/api_helper"
 
 const UserProfile = () => {
   //meta title
@@ -108,12 +108,13 @@ const UserProfile = () => {
       formData.append("last_name", values.last_name)
       formData.append("email", values.email)
       formData.append("image", values.image)
+      formData.append("_method", "PUT")
       console.log("values", values)
       try {
-        const res = await put(`/update/${id}`, formData)
+        const res = await post(`/update/${id}`, formData)
         console.log(res)
         resetForm()
-        showUserById()
+        await showUserById()
       } catch (err) {
         console.log(err)
       }
